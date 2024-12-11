@@ -1,0 +1,4 @@
+public interface WithId {
+    int id;
+}
+public class Test<T> where T : WithId
