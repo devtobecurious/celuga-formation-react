@@ -12,24 +12,35 @@ import { GetAllFilmsService } from "../services/get-all-films-service"
 
 //     return <h1>Liste des films</h1>
 // }
+export type ToClickEmpty = () => void
+
 
 export const ListFilms = () => {
+    console.info('ListFilms')
+
     const service = new GetAllFilmsService()
     const list = service.getAll()
     const trList = list.map(item => <tr><td>{item.title}</td></tr>)
+
+    const toDelete: ToClickEmpty = () => {
+        list.pop()
+        console.info('to delete', list.length)
+    }
 
     return (
         <>
             <h1>Liste des films</h1>
             <h2>Des films SW bien sûr</h2>
 
-            { trList.length == 0 && <i>Aucun élément</i> }
+            { trList.length === 0 && <i>Aucun élément</i> }
 
             <table>
                 <tbody>
                     {trList}
                 </tbody>
             </table>
+
+            <button onClick={toDelete}>Delete last row</button>
         </>
     )
 }
