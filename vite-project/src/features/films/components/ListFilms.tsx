@@ -2,6 +2,7 @@
 // 2. Thin component (40 à 100 lignes)
 // 3. Un element parent retourné (et des enfants) par composant
 
+import { useState } from "react"
 import { GetAllFilmsService } from "../services/get-all-films-service"
 
 // export const ListFilms = function() {
@@ -18,13 +19,14 @@ export type ToClickEmpty = () => void
 export const ListFilms = () => {
     console.info('ListFilms')
 
-    const service = new GetAllFilmsService()
-    const list = service.getAll()
-    const trList = list.map(item => <tr><td>{item.title}</td></tr>)
+    const [films, setFilms] = useState(new GetAllFilmsService().getAll)
+    
+    const trList = films.map(item => <tr><td>{item.title}</td></tr>)
 
     const toDelete: ToClickEmpty = () => {
-        list.pop()
-        console.info('to delete', list.length)
+        films.pop()
+        setFilms([...films])
+        console.info('to delete', films.length)
     }
 
     return (
