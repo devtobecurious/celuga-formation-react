@@ -13,7 +13,10 @@ export class Film {
                     //this.categories = categories
                 }
 
-    get id() { return this._id }
+    get id() { return this._id; }
+    set id(value: number) {
+        this._id = value
+    }
 }
 
 export type FilmList = Film[]

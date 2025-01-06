@@ -19,8 +19,10 @@ export type ToClickEmpty = () => void
 export const ListFilms = () => {
     console.info('ListFilms')
 
+    // 1. Ai-je besoin d'un état à surveiller ?
     const [films, setFilms] = useState(new GetAllFilmsService().getAll)
     
+    // 2. Le code qui permet de préparer le "html" / jsx/tsx
     const trList = films.map(item => <tr><td>{item.title}</td></tr>)
 
     const toDelete: ToClickEmpty = () => {
@@ -29,8 +31,10 @@ export const ListFilms = () => {
         console.info('to delete', films.length)
     }
 
+    // 3. Le return du "html" / jsx/tsx
+    // toujours un noeud  parent
     return (
-        <>
+        <> 
             <h1>Liste des films</h1>
             <h2>Des films SW bien sûr</h2>
 
