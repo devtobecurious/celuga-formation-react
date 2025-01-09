@@ -4,6 +4,7 @@
 
 import { useState } from "react"
 import { GetAllFilmsService } from "../services/get-all-films-service"
+import { Button } from "react-bootstrap"
 
 // export const ListFilms = function() {
 //     console.info('ListFilms')
@@ -46,7 +47,8 @@ export const ListFilms = () => {
                 </tbody>
             </table>
 
-            <button onClick={toDelete}>Delete last row</button>
+            {/* <button onClick={toDelete}>Delete last row</button> */}
+            { trList.length > 0 && <Button variant="warning" onClick={toDelete}>Delete last row</Button>}
         </>
     )
 }

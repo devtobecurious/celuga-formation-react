@@ -5,7 +5,7 @@ export class Category {
 }
 
 export class Film {
-    private categories: Category[] | undefined
+    // private categories: Category[] | undefined
 
     constructor(private _id: number, public description: string, 
                 public title: string | number | undefined, public year?: Years) {
