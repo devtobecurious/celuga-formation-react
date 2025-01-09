@@ -2,9 +2,11 @@
 // 2. Thin component (40 à 100 lignes)
 // 3. Un element parent retourné (et des enfants) par composant
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { GetAllFilmsService } from "../services/get-all-films-service"
-import { Button } from "react-bootstrap"
+import { Button, Spinner } from "react-bootstrap"
+import { getAllFilmsApiServices } from "../services/get-all-films.api.service"
+import { FilmList } from "../models/film"
 
 // export const ListFilms = function() {
 //     console.info('ListFilms')
@@ -16,15 +18,26 @@ import { Button } from "react-bootstrap"
 // }
 export type ToClickEmpty = () => void
 
-
+const service = new GetAllFilmsService(getAllFilmsApiServices)
 export const ListFilms = () => {
     console.info('ListFilms')
 
     // 1. Ai-je besoin d'un état à surveiller ?
-    const [films, setFilms] = useState(new GetAllFilmsService().getAll)
+    const [films, setFilms] = useState<FilmList>([])
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     
-    // 2. Le code qui permet de préparer le "html" / jsx/tsx
-    const trList = films.map(item => <tr><td>{item.title}</td></tr>)
+    useEffect(() => {
+        async function fetchData() {
+            setIsLoading(true)
+            const list = await service.getAll()
+            setFilms(list)
+            setIsLoading(false)
+          }
+          fetchData();
+    }, []) // appelé une seule fois au démarrage de mon composant
+
+    // // 2. Le code qui permet de préparer le "html" / jsx/tsx
+    const trList = films.map(item => <tr key={item.id}><td>{item.title}</td></tr>)
 
     const toDelete: ToClickEmpty = () => {
         films.pop()
@@ -38,6 +51,8 @@ export const ListFilms = () => {
         <> 
             <h1>Liste des films</h1>
             <h2>Des films SW bien sûr</h2>
+
+            { isLoading && <Spinner></Spinner>}
 
             { trList.length === 0 && <i>Aucun élément</i> }
 

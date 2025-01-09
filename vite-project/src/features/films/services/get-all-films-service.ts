@@ -1,12 +1,11 @@
 import { Film, FilmList } from "../models/film";
+import { ApiFilmsResult } from "./models";
 
 export class GetAllFilmsService {
-    getAll(): FilmList {
-        const array: FilmList = [
-            new Film(1, 'il était', 'a new hope', 2005),
-            new Film(2, 'il était fois', 'Han solo', 2015)
-        ]
+    constructor(private getAllFromApi: () => Promise<ApiFilmsResult>) {}
 
-        return array
+    async getAll(): Promise<FilmList> {
+        const apiResult = await this.getAllFromApi()
+        return apiResult.result.map(item => new Film(item.uid, item.description, item.properties.title))
     }
 }
